@@ -15,26 +15,28 @@
 * Golang安装hprose：go get github.com/hprose/hprose-golang
 
 ## 使用方法：
-> PHP服务端：（使用php -f server.php运行并监听端口）
+> PHP服务端server.php：（使用php -f server.php运行并监听端口）
 ```
-function hello($moudle, $method, $params)
+function hello($path, $params)
 {
-    return "return client: moudle $moudle! method $method";
+    echo "access php server: {$path} " . date('Y-m-d H:i:s') . PHP_EOL;
+    return "access php server: {$path} " . date('Y-m-d H:i:s');
 }
 
 $server = new \Hprose\Socket\Server('tcp://0.0.0.0:1314');
 $server->addFunction('hello');
 $server->start();
 ```
-
 ---
-> PHP客户端：
+
+> PHP客户端client.php：
 ```
 $client = new \Hprose\Socket\Client('tcp://127.0.0.1:1314', false);
-$result = $client->hello('Message', 'notification', 'jsonData');
+$result = $client->hello('Order.detail', 'jsonData');
 ```
 ---
-> Golang服务端：（使用go run server.go运行并监听端口）
+
+> Golang服务端server.go：（使用go run server.go运行并监听端口）
 ```
 package main
 
@@ -45,19 +47,19 @@ import (
 )
 
 func main() {
-    server := rpc.NewTCPServer("tcp://0.0.0.0:1313/")
+    client := rpc.NewTCPClient("tcp://127.0.0.1:1313/")
     server.AddFunction("hello", hello)
     server.Start()
 }
 
-func hello(moudle string, method string, params interface{}) string {
-    fmt.Printf("golang server: moudle: %s method: %s\n", moudle, method)
-    return fmt.Sprintf("return client: moudle: %s method: %s", moudle, method)
+func hello(path string, params interface{}) string {
+    fmt.Printf("access golang micro service: %s %s\n", path, time.Now().Format("2006-01-02 15:04:05"))
+    return fmt.Sprintf("access golang micro service: %s %s\n", path, time.Now().Format("2006-01-02 15:04:05"))
 }
 ```
-
 ---
-> Golang客户端：
+
+> Golang客户端client.go
 ```
 package main
 
@@ -68,14 +70,14 @@ import (
 )
 
 type HandleService struct {
-    Hello func(moudle, method, params string) (string, error)
+    Hello func(path, params string) (string, error)
 }
 
 func main() {
     var service *HandleService
-    client := rpc.NewTCPClient("tcp://0.0.0.0:1314/")
+    client := rpc.NewTCPClient("tcp://0.0.0.0:1313/")
     client.UseService(&service)
-    result, _ := service.Hello("Goods", "delete", "jsonData")
+    result, _ := service.Hello("Goods.delete", "jsonData")
     fmt.Println(result)
     client.Close()
 }
