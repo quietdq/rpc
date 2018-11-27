@@ -1,5 +1,5 @@
 # RPC远程过程调用使用手记（hprose框架）
-* 手记：使用RPC在PHP、Golang微服务相互调用（使用hprose）
+* 使用RPC在PHP、Golang微服务相互调用（使用hprose）
 * PHP流行的RPC框架：phprpc，yar, thrift, gRPC, swoole, hprose
 
 ## hprose官方文档：
