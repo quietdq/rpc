@@ -15,7 +15,7 @@
 * Golang安装hprose：go get github.com/hprose/hprose-golang
 
 # 使用方法：
-* PHP服务端server.php：（使用php -f server.php运行并监听端口）
+> PHP服务端server.php：（使用php -f server.php运行并监听端口）
 ```
 function hello($path, $params)
 {
@@ -29,14 +29,14 @@ $server->start();
 ```
 ---
 
-* PHP客户端client.php：
+> PHP客户端client.php：
 ```
 $client = new \Hprose\Socket\Client('tcp://127.0.0.1:1314', false);
 $result = $client->hello('Order.detail', 'jsonData');
 ```
 ---
 
-* Golang服务端server.go：（使用go run server.go运行并监听端口）
+> Golang服务端server.go：（使用go run server.go运行并监听端口）
 ```
 package main
 
@@ -59,7 +59,7 @@ func hello(path string, params interface{}) string {
 ```
 ---
 
-* Golang客户端client.go
+> Golang客户端client.go
 ```
 package main
 
