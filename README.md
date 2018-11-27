@@ -27,11 +27,13 @@ $server->addFunction('hello');
 $server->start();
 ```
 
+---
 > PHP客户端：
 ```
 $client = new \Hprose\Socket\Client('tcp://127.0.0.1:1314', false);
 $result = $client->hello('Message', 'notification', 'jsonData');
 ```
+---
 > Golang服务端：（使用go run server.go运行并监听端口）
 ```
 package main
@@ -54,6 +56,7 @@ func hello(moudle string, method string, params interface{}) string {
 }
 ```
 
+---
 > Golang客户端：
 ```
 package main
