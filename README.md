@@ -47,15 +47,16 @@ import (
 )
 
 func main() {
-    client := rpc.NewTCPClient("tcp://127.0.0.1:1313/")
-    server.AddFunction("hello", hello)
-    server.Start()
+	server := rpc.NewTCPServer("tcp://0.0.0.0:1313/")
+	server.AddFunction("hello", hello)
+	server.Start()
 }
 
 func hello(path string, params interface{}) string {
-    fmt.Printf("access golang micro service: %s %s\n", path, time.Now().Format("2006-01-02 15:04:05"))
-    return fmt.Sprintf("access golang micro service: %s %s\n", path, time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Printf("access golang micro service: %s %s\n", path, time.Now().Format("2006-01-02 15:04:05"))
+	return fmt.Sprintf("access golang micro service: %s %s\n", path, time.Now().Format("2006-01-02 15:04:05"))
 }
+
 ```
 ---
 
